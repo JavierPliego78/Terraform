@@ -42,7 +42,7 @@ services:
       REDIS_PORT: 6379
       SECRET_KEY: "clave_secreta_jenkins"
     ports:
-      - "5001:5001"
+      - "5001:5000"
     depends_on:
       mysql:
         condition: service_healthy
