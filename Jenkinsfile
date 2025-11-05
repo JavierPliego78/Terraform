@@ -81,15 +81,15 @@ pipeline {
                 expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
             }
             steps {
-                sh '''
-                    echo "=== Realizando pruebas de integración ==="
-                    timeout time: 90, unit: 'SECONDS', activity: true {
+                timeout(time: 90, unit: 'SECONDS', activity: true) {
+                    sh '''
+                        echo "=== Realizando pruebas de integración ==="
                         while true; do
-                            if curl -s -f http://localhost:5000/login > /dev/null; then
+                            if curl -s -f http://192.168.52.128:5001/login > /dev/null; then
                                 echo "✅ Aplicación Flask respondiendo"
                                 
                                 # Probar que la base de datos funciona haciendo una consulta simple
-                                if curl -s http://localhost:5000/register | grep -q "Register"; then
+                                if curl -s http://192.168.52.128:5001/register | grep -q "Registro"; then
                                     echo "✅ Formulario de registro accesible"
                                     echo "🎉 Todas las pruebas pasaron correctamente"
                                     break
@@ -102,11 +102,11 @@ pipeline {
                                 sleep 10
                             fi
                         done
-                    }
-                '''
+                    '''
+                }
             }
         }
-    }
+    } // 🔹 Cierre correcto de 'stages'
     
     post {
         always {
